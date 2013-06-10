@@ -2,10 +2,6 @@ var restify = require('restify');
 var displayService = require('./lib/displayService');
 var audioService = require('./lib/audioService');
 
-function respond(req, res, next) {
-  res.send('hello ' + req.params.name);
-}
-
 var server = restify.createServer();
 
 //  Server settings
