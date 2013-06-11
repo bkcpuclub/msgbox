@@ -38,8 +38,7 @@
     "pi-gpio": "~0.0.2",
     "lame": "~1.0.2",
     "icecast": "~1.2.0",
-    "speaker": "~0.0.10",
-    "async": "~0.2.9"
+    "speaker": "git://github.com/aferre/node-speaker.git"
   },
   "keywords": []
 }
