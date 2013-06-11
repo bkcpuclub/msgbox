@@ -1,6 +1,7 @@
 var restify = require('restify');
 var displayService = require('./lib/displayService');
 var audioService = require('./lib/audioService');
+var playlistService = require('./lib/playlistService');
 
 var server = restify.createServer();
 
@@ -46,6 +47,28 @@ server.get('/info', function respond(req, res, next) {
                         description : "Language code to use ('en' is default)."
                     }
                 ]
+            },
+            {
+                name : "playlist",
+                method : "PUT",
+                description : "Add a track to the playlist.",
+                parameters : [
+                    {
+                        name : "uri",
+                        required : true,
+                        description : "URI of the track (currently supported : Spotify)."
+                    },
+                    {
+                        name : "username",
+                        required : false,
+                        description : "Username to log into the targeted streaming service."
+                    },
+                    {
+                        name : "password",
+                        required : false,
+                        description : "Password to log into the targeted streaming service."
+                    }
+                ]
             }
         ]
     });
@@ -72,6 +95,16 @@ server.post('/say', function respond(req, res, next) {
     }
 });
 
-server.listen(8080, function() {
+server.put('/playlist', function respond(req, res, next) {
+    if (!req.params.uri) {
+        return next(new restify.MissingParameterError("uri parameter is missing"));
+    } else {
+        playlistService.add(req.params.uri, req.params.username, req.params.password);
+        res.send(200);
+        return next();
+    }
+});
+
+server.listen(8080, function () {
   console.log('%s listening at %s', server.name, server.url);
 });
